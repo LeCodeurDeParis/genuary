@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 25 - Une ligne qui peut se croiser</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
+    </style>
+</head>
+<body>
+    <script>
+        let points = [];
+        let t = 0;
+        
+        function setup() {
+            createCanvas(800, 800);
+            colorMode(HSB);
+            generateLine();
+        }
+        
+        function generateLine() {
+            points = [];
+            
+            // Générer une ligne complexe qui peut se croiser
+            let segments = int(random(5, 15));
+            
+            for (let i = 0; i < segments; i++) {
+                let angle = random(TWO_PI);
+                let length = random(50, 200);
+                
+                if (points.length === 0) {
+                    // Premier point
+                    points.push({
+                        x: width / 2,
+                        y: height / 2
+                    });
+                }
+                
+                // Point suivant
+                let lastPoint = points[points.length - 1];
+                points.push({
+                    x: lastPoint.x + cos(angle) * length,
+                    y: lastPoint.y + sin(angle) * length
+                });
+            }
+            
+            // Ajouter des courbes avec des points de contrôle
+            let smoothPoints = [];
+            for (let i = 0; i < points.length - 1; i++) {
+                smoothPoints.push(points[i]);
+                
+                // Points intermédiaires pour courbes
+                let midX = (points[i].x + points[i + 1].x) / 2;
+                let midY = (points[i].y + points[i + 1].y) / 2;
+                let offset = random(-50, 50);
+                
+                smoothPoints.push({
+                    x: midX + offset,
+                    y: midY + offset
+                });
+            }
+            smoothPoints.push(points[points.length - 1]);
+            
+            points = smoothPoints;
+        }
+        
+        function draw() {
+            background(0, 0, 0, 0.05);
+            
+            // Dessiner la ligne avec effet de couleur progressive
+            noFill();
+            strokeWeight(3);
+            
+            beginShape();
+            for (let i = 0; i < points.length; i++) {
+                let hue = map(i, 0, points.length, 180, 320);
+                let brightness = map(sin(t + i * 0.1), -1, 1, 60, 100);
+                stroke(hue, 80, brightness);
+                
+                // Animation subtile
+                let x = points[i].x + sin(t + i * 0.1) * 2;
+                let y = points[i].y + cos(t + i * 0.2) * 2;
+                
+                curveVertex(x, y);
+                
+                // Dessiner un point à chaque nœud
+                push();
+                noStroke();
+                fill(hue, 90, 90);
+                circle(x, y, 8);
+                pop();
+            }
+            endShape();
+            
+            // Dessiner la même ligne avec un effet de transparence
+            strokeWeight(1);
+            beginShape();
+            for (let i = 0; i < points.length; i++) {
+                let hue = map(i, 0, points.length, 200, 300);
+                stroke(hue, 70, 70, 0.3);
+                
+                let x = points[i].x + sin(t * 1.5 + i * 0.15) * 3;
+                let y = points[i].y + cos(t * 1.5 + i * 0.25) * 3;
+                
+                curveVertex(x, y);
+            }
+            endShape();
+            
+            // Marquer les intersections potentielles
+            for (let i = 0; i < points.length - 2; i++) {
+                for (let j = i + 2; j < points.length - 1; j++) {
+                    let intersection = lineIntersect(
+                        points[i], points[i + 1],
+                        points[j], points[j + 1]
+                    );
+                    
+                    if (intersection) {
+                        // Marquer l'intersection
+                        push();
+                        noStroke();
+                        fill(60, 100, 100);
+                        circle(intersection.x, intersection.y, 15);
+                        
+                        // Halo
+                        fill(60, 100, 100, 0.3);
+                        circle(intersection.x, intersection.y, 30 + sin(t * 3) * 10);
+                        pop();
+                    }
+                }
+            }
+            
+            t += 0.02;
+        }
+        
+        // Détection d'intersection entre deux segments
+        function lineIntersect(p1, p2, p3, p4) {
+            let x1 = p1.x, y1 = p1.y;
+            let x2 = p2.x, y2 = p2.y;
+            let x3 = p3.x, y3 = p3.y;
+            let x4 = p4.x, y4 = p4.y;
+            
+            let denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+            
+            if (denom === 0) return null;
+            
+            let t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+            let u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+            
+            if (t > 0 && t < 1 && u > 0 && u < 1) {
+                return {
+                    x: x1 + t * (x2 - x1),
+                    y: y1 + t * (y2 - y1)
+                };
+            }
+            
+            return null;
+        }
+        
+        function mousePressed() {
+            generateLine();
+            t = 0;
+        }
+    </script>
+</body>
+</html>

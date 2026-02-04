@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 11 - Journée impossible</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #0a0a0a; }
+    </style>
+</head>
+<body>
+    <script>
+        // Défi impossible : Créer une illusion 3D d'objets impossibles (comme Escher)
+        // combinée avec une animation fluide et des effets de particules
+        
+        let particles = [];
+        let angle = 0;
+        
+        function setup() {
+            createCanvas(800, 800, WEBGL);
+            
+            // Créer un système de particules
+            for (let i = 0; i < 500; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function draw() {
+            background(10);
+            
+            // Lumières dynamiques
+            ambientLight(50);
+            pointLight(255, 100, 150, 200, -200, 200);
+            pointLight(100, 150, 255, -200, 200, -200);
+            
+            // Rotation de la caméra
+            rotateX(angle * 0.3);
+            rotateY(angle * 0.5);
+            rotateZ(angle * 0.2);
+            
+            // Structure impossible (triangle de Penrose en 3D)
+            drawImpossibleTriangle();
+            
+            // Particules
+            for (let p of particles) {
+                p.update();
+                p.show();
+            }
+            
+            angle += 0.01;
+        }
+        
+        function drawImpossibleTriangle() {
+            push();
+            
+            let size = 150;
+            noFill();
+            strokeWeight(15);
+            
+            // Trois segments qui semblent se connecter de manière impossible
+            for (let i = 0; i < 3; i++) {
+                push();
+                rotateZ(TWO_PI / 3 * i);
+                
+                // Gradient de couleur pour effet de profondeur
+                stroke(100 + i * 50, 150 - i * 30, 200 + i * 20);
+                
+                beginShape();
+                vertex(-size, 0, 0);
+                vertex(0, -size, size * sin(angle + i));
+                vertex(size, 0, 0);
+                endShape();
+                
+                // Sphères aux connexions
+                fill(255, 200 - i * 50, 100 + i * 50);
+                noStroke();
+                push();
+                translate(size, 0, 0);
+                sphere(20);
+                pop();
+                
+                pop();
+            }
+            pop();
+        }
+        
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.pos = createVector(
+                    random(-400, 400),
+                    random(-400, 400),
+                    random(-400, 400)
+                );
+                this.vel = createVector(
+                    random(-1, 1),
+                    random(-1, 1),
+                    random(-1, 1)
+                );
+                this.life = 255;
+            }
+            
+            update() {
+                this.pos.add(this.vel);
+                this.life -= 2;
+                
+                if (this.life < 0 || this.pos.mag() > 500) {
+                    this.reset();
+                }
+            }
+            
+            show() {
+                push();
+                translate(this.pos.x, this.pos.y, this.pos.z);
+                noStroke();
+                fill(200, 150, 255, this.life);
+                sphere(2);
+                pop();
+            }
+        }
+        
+        function mousePressed() {
+            angle = 0;
+        }
+    </script>
+</body>
+</html>

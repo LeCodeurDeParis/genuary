@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 23 - Inspiré par le brutalisme</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #3a3a3a; }
+    </style>
+</head>
+<body>
+    <script>
+        function setup() {
+            createCanvas(800, 800);
+            noLoop();
+            drawBrutalist();
+        }
+        
+        function drawBrutalist() {
+            // Palette brutaliste : béton, gris, noir
+            let concrete = color(140, 140, 130);
+            let darkConcrete = color(90, 90, 85);
+            let black = color(30, 30, 30);
+            let accent = color(180, 60, 40); // Rouge brique occasionnel
+            
+            background(concrete);
+            
+            // Texture de béton brut
+            for (let i = 0; i < 5000; i++) {
+                stroke(random(120, 160), random(120, 160), random(110, 150), random(10, 50));
+                strokeWeight(random(1, 3));
+                point(random(width), random(height));
+            }
+            
+            // Structures massives et géométriques
+            noStroke();
+            
+            // Grand bloc principal
+            fill(darkConcrete);
+            rect(100, 150, 600, 500);
+            
+            // Ombres brutales
+            fill(black);
+            rect(100, 150, 20, 500); // Ombre gauche
+            rect(100, 630, 600, 20); // Ombre bas
+            
+            // Fenêtres répétitives et fonctionnelles
+            fill(black);
+            let windowSize = 40;
+            let spacing = 60;
+            
+            for (let x = 150; x < 650; x += spacing) {
+                for (let y = 200; y < 600; y += spacing) {
+                    rect(x, y, windowSize, windowSize);
+                }
+            }
+            
+            // Détails structurels exposés
+            fill(90, 90, 80);
+            rect(120, 170, 560, 15); // Poutre horizontale
+            rect(120, 350, 560, 15);
+            rect(120, 530, 560, 15);
+            
+            // Colonnes verticales
+            rect(120, 170, 15, 460);
+            rect(350, 170, 15, 460);
+            rect(580, 170, 15, 460);
+            
+            // Élément d'accent brutaliste
+            fill(accent);
+            rect(680, 150, 20, 500);
+            
+            // Escalier/rampe caractéristique
+            fill(100, 100, 95);
+            for (let i = 0; i < 8; i++) {
+                rect(50 - i * 5, 300 + i * 40, 50, 30);
+            }
+            
+            // Texture de coffrage du béton (lignes horizontales)
+            stroke(100, 100, 90);
+            strokeWeight(2);
+            for (let y = 160; y < 650; y += 40) {
+                line(100, y, 700, y);
+            }
+            
+            // Graffiti/tag minimaliste (typique du brutalisme urbain)
+            noStroke();
+            fill(black);
+            textSize(60);
+            textFont('Arial Black');
+            push();
+            translate(400, 400);
+            rotate(-PI / 12);
+            text('█████', -100, 0);
+            pop();
+            
+            // Sol en béton
+            fill(120, 120, 115);
+            rect(0, 670, width, 130);
+            
+            // Lignes de dilatation
+            stroke(80, 80, 75);
+            strokeWeight(3);
+            for (let x = 0; x < width; x += 100) {
+                line(x, 670, x, 800);
+            }
+        }
+        
+        function mousePressed() {
+            drawBrutalist();
+        }
+    </script>
+</body>
+</html>

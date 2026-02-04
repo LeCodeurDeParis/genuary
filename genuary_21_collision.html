@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 21 - Détection de collision</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #1a1a1a; }
+    </style>
+</head>
+<body>
+    <script>
+        let balls = [];
+        
+        function setup() {
+            createCanvas(800, 800);
+            
+            // Créer des balles
+            for (let i = 0; i < 20; i++) {
+                balls.push(new Ball(
+                    random(50, width - 50),
+                    random(50, height - 50),
+                    random(15, 35)
+                ));
+            }
+        }
+        
+        function draw() {
+            background(26, 26, 26);
+            
+            // Mettre à jour et afficher les balles
+            for (let ball of balls) {
+                ball.update();
+                ball.checkEdges();
+                ball.show();
+            }
+            
+            // Vérifier les collisions entre balles
+            for (let i = 0; i < balls.length; i++) {
+                for (let j = i + 1; j < balls.length; j++) {
+                    if (checkCollision(balls[i], balls[j])) {
+                        resolveCollision(balls[i], balls[j]);
+                        
+                        // Effet visuel de collision
+                        stroke(255, 200, 100, 150);
+                        strokeWeight(2);
+                        line(balls[i].x, balls[i].y, balls[j].x, balls[j].y);
+                    }
+                }
+            }
+            
+            // Instructions
+            fill(200);
+            noStroke();
+            textSize(14);
+            text('Cliquez pour ajouter une balle', 10, 20);
+        }
+        
+        function checkCollision(ball1, ball2) {
+            // Distance entre les centres
+            let dx = ball2.x - ball1.x;
+            let dy = ball2.y - ball1.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // Collision si la distance est inférieure à la somme des rayons
+            return distance < ball1.r + ball2.r;
+        }
+        
+        function resolveCollision(ball1, ball2) {
+            // Vecteur de collision
+            let dx = ball2.x - ball1.x;
+            let dy = ball2.y - ball1.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // Normaliser
+            let nx = dx / distance;
+            let ny = dy / distance;
+            
+            // Vitesse relative
+            let dvx = ball2.vx - ball1.vx;
+            let dvy = ball2.vy - ball1.vy;
+            
+            // Vitesse relative dans la direction de collision
+            let relativeVelocity = dvx * nx + dvy * ny;
+            
+            // Ne pas résoudre si les balles s'éloignent
+            if (relativeVelocity > 0) return;
+            
+            // Coefficient de restitution (élasticité)
+            let restitution = 0.9;
+            
+            // Impulsion
+            let impulse = -(1 + restitution) * relativeVelocity / 2;
+            
+            // Appliquer l'impulsion
+            ball1.vx -= impulse * nx;
+            ball1.vy -= impulse * ny;
+            ball2.vx += impulse * nx;
+            ball2.vy += impulse * ny;
+            
+            // Séparer les balles si elles se chevauchent
+            let overlap = (ball1.r + ball2.r) - distance;
+            if (overlap > 0) {
+                let separationX = nx * overlap / 2;
+                let separationY = ny * overlap / 2;
+                ball1.x -= separationX;
+                ball1.y -= separationY;
+                ball2.x += separationX;
+                ball2.y += separationY;
+            }
+        }
+        
+        class Ball {
+            constructor(x, y, r) {
+                this.x = x;
+                this.y = y;
+                this.r = r;
+                this.vx = random(-3, 3);
+                this.vy = random(-3, 3);
+                this.color = color(random(100, 255), random(100, 255), random(100, 255));
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+            }
+            
+            checkEdges() {
+                if (this.x - this.r < 0 || this.x + this.r > width) {
+                    this.vx *= -0.9;
+                    this.x = constrain(this.x, this.r, width - this.r);
+                }
+                if (this.y - this.r < 0 || this.y + this.r > height) {
+                    this.vy *= -0.9;
+                    this.y = constrain(this.y, this.r, height - this.r);
+                }
+            }
+            
+            show() {
+                fill(this.color);
+                noStroke();
+                circle(this.x, this.y, this.r * 2);
+                
+                // Outline
+                noFill();
+                stroke(255, 100);
+                strokeWeight(2);
+                circle(this.x, this.y, this.r * 2);
+            }
+        }
+        
+        function mousePressed() {
+            balls.push(new Ball(mouseX, mouseY, random(15, 35)));
+        }
+    </script>
+</body>
+</html>

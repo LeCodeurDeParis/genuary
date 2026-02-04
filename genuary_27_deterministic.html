@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 27 - Sans hasard ni bruit</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
+    </style>
+</head>
+<body>
+    <script>
+        let t = 0;
+        
+        function setup() {
+            createCanvas(800, 800);
+            colorMode(HSB);
+        }
+        
+        function draw() {
+            background(0, 0, 10);
+            translate(width / 2, height / 2);
+            
+            // Spirale mathématique déterministe
+            for (let i = 0; i < 1000; i++) {
+                let angle = i * 0.1;
+                let radius = i * 0.3;
+                
+                let x = cos(angle + t) * radius;
+                let y = sin(angle + t) * radius;
+                
+                let hue = (i * 2 + t * 50) % 360;
+                fill(hue, 80, 80);
+                noStroke();
+                circle(x, y, 5);
+            }
+            
+            // Ondes sinusoïdales
+            stroke(180, 70, 90);
+            strokeWeight(2);
+            noFill();
+            
+            for (let wave = 0; wave < 5; wave++) {
+                beginShape();
+                for (let x = -width / 2; x < width / 2; x += 5) {
+                    let y = sin(x * 0.02 + t + wave) * (50 + wave * 20);
+                    vertex(x, y);
+                }
+                endShape();
+            }
+            
+            // Cercles concentriques avec animation déterministe
+            for (let r = 50; r < 400; r += 20) {
+                let offset = sin(t + r * 0.01) * 10;
+                noFill();
+                stroke((r + t * 100) % 360, 70, 70);
+                strokeWeight(1);
+                circle(0, 0, (r + offset) * 2);
+            }
+            
+            // Motif de lignes radiales
+            for (let a = 0; a < TWO_PI; a += PI / 16) {
+                let length = 150 + cos(t * 2 + a * 3) * 50;
+                stroke((a * 100 + t * 50) % 360, 80, 80);
+                strokeWeight(2);
+                line(0, 0, cos(a) * length, sin(a) * length);
+            }
+            
+            // Polygones rotatifs
+            push();
+            rotate(t * 0.5);
+            for (let sides = 3; sides <= 8; sides++) {
+                let radius = sides * 30;
+                stroke((sides * 60 + t * 30) % 360, 70, 70);
+                strokeWeight(2);
+                noFill();
+                
+                beginShape();
+                for (let i = 0; i < sides; i++) {
+                    let angle = TWO_PI / sides * i;
+                    let x = cos(angle) * radius;
+                    let y = sin(angle) * radius;
+                    vertex(x, y);
+                }
+                endShape(CLOSE);
+            }
+            pop();
+            
+            // Lissajous curves
+            push();
+            let a = 3;
+            let b = 4;
+            stroke(300, 80, 80);
+            strokeWeight(2);
+            noFill();
+            beginShape();
+            for (let i = 0; i < 200; i++) {
+                let angle = map(i, 0, 200, 0, TWO_PI);
+                let x = sin(a * angle + t) * 100;
+                let y = cos(b * angle + t) * 100;
+                vertex(x, y);
+            }
+            endShape(CLOSE);
+            pop();
+            
+            t += 0.02;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 29 - Design graphique basé sur grille</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <script>
+        let gridSize = 80;
+        let cols, rows;
+        
+        function setup() {
+            createCanvas(800, 800);
+            cols = width / gridSize;
+            rows = height / gridSize;
+            noLoop();
+            drawGrid();
+        }
+        
+        function drawGrid() {
+            background(245, 245, 240);
+            
+            // Palette style Swiss design
+            let colors = [
+                color(220, 50, 50),    // Rouge
+                color(40, 40, 40),     // Noir
+                color(240, 240, 235),  // Blanc cassé
+                color(50, 100, 180),   // Bleu
+                color(255, 200, 50)    // Jaune
+            ];
+            
+            // Dessiner la grille de guidage (subtile)
+            stroke(200, 200, 195);
+            strokeWeight(0.5);
+            for (let x = 0; x <= width; x += gridSize) {
+                line(x, 0, x, height);
+            }
+            for (let y = 0; y <= height; y += gridSize) {
+                line(0, y, width, y);
+            }
+            
+            // Design modulaire basé sur la grille
+            
+            // Grande zone de titre (2x1 modules)
+            fill(colors[0]);
+            noStroke();
+            rect(0, 0, gridSize * 4, gridSize);
+            fill(255);
+            textSize(32);
+            textFont('Helvetica');
+            textStyle(BOLD);
+            text('GRID', 20, 55);
+            
+            // Zone de sous-titre
+            fill(colors[1]);
+            rect(0, gridSize, gridSize * 3, gridSize * 0.5);
+            fill(255);
+            textSize(14);
+            textStyle(NORMAL);
+            text('BASED DESIGN', 20, gridSize + 30);
+            
+            // Blocs colorés suivant la grille
+            fill(colors[3]);
+            rect(gridSize * 4, 0, gridSize * 3, gridSize * 2);
+            
+            fill(colors[4]);
+            rect(gridSize * 7, 0, gridSize * 3, gridSize);
+            
+            // Zone de contenu avec colonnes
+            fill(255);
+            stroke(colors[1]);
+            strokeWeight(2);
+            rect(0, gridSize * 2, gridSize * 5, gridSize * 4);
+            
+            // Texte simulé en colonnes
+            fill(colors[1]);
+            noStroke();
+            textSize(10);
+            textLeading(15);
+            let col1X = 20;
+            let col2X = gridSize * 2.5 + 20;
+            let startY = gridSize * 2 + 30;
+            
+            for (let i = 0; i < 8; i++) {
+                rect(col1X, startY + i * 25, gridSize * 2 - 40, 3);
+                rect(col2X, startY + i * 25, gridSize * 2 - 40, 3);
+            }
+            
+            // Cercles suivant la grille
+            fill(colors[0]);
+            circle(gridSize * 6.5, gridSize * 3.5, gridSize * 1.5);
+            
+            fill(colors[3]);
+            circle(gridSize * 8.5, gridSize * 4.5, gridSize);
+            
+            // Rectangles décoratifs alignés sur la grille
+            fill(colors[1]);
+            rect(gridSize * 5, gridSize * 2, gridSize * 2, gridSize * 0.3);
+            rect(gridSize * 5, gridSize * 4, gridSize * 1.5, gridSize * 0.3);
+            
+            // Zone inférieure avec motif
+            for (let x = 0; x < cols; x++) {
+                for (let y = 6; y < rows; y++) {
+                    if ((x + y) % 2 === 0) {
+                        fill(colors[2]);
+                    } else {
+                        fill(colors[4]);
+                    }
+                    noStroke();
+                    rect(x * gridSize, y * gridSize, gridSize, gridSize);
+                }
+            }
+            
+            // Éléments typographiques
+            fill(colors[1]);
+            textSize(48);
+            textStyle(BOLD);
+            text('29', gridSize * 7.5, gridSize * 7);
+            
+            textSize(16);
+            textStyle(NORMAL);
+            text('GENUARY', gridSize * 7.2, gridSize * 7.5);
+            
+            // Lignes d'accent
+            stroke(colors[0]);
+            strokeWeight(4);
+            line(0, gridSize * 6 - 2, width, gridSize * 6 - 2);
+            
+            strokeWeight(2);
+            line(gridSize * 7, gridSize * 5, gridSize * 7, height);
+            
+            // Numéros de grille (annotations)
+            fill(150);
+            textSize(8);
+            textStyle(NORMAL);
+            for (let x = 0; x < cols; x++) {
+                text(x, x * gridSize + 5, 15);
+            }
+            for (let y = 0; y < rows; y++) {
+                text(y, 5, y * gridSize + 15);
+            }
+        }
+        
+        function mousePressed() {
+            drawGrid();
+        }
+    </script>
+</body>
+</html>

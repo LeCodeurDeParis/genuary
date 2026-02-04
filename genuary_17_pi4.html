@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 17 - Et si pi = 4?</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
+    </style>
+</head>
+<body>
+    <script>
+        // Redéfinir PI comme 4
+        const FAKE_PI = 4;
+        let angle = 0;
+        
+        function setup() {
+            createCanvas(800, 800);
+            colorMode(HSB);
+        }
+        
+        function draw() {
+            background(0, 20);
+            translate(width/2, height/2);
+            
+            // Avec pi = 4, un cercle complet = 2*4 = 8
+            let fullCircle = 2 * FAKE_PI;
+            
+            // "Cercles" déformés
+            noFill();
+            for (let r = 50; r < 350; r += 30) {
+                stroke(map(r, 50, 350, 0, 360), 80, 80);
+                strokeWeight(2);
+                beginShape();
+                for (let a = 0; a < fullCircle; a += 0.1) {
+                    let x = mycos(a) * r;
+                    let y = mysin(a) * r;
+                    vertex(x, y);
+                }
+                endShape(CLOSE);
+            }
+            
+            // Spirale avec pi = 4
+            stroke(180, 80, 100);
+            strokeWeight(3);
+            beginShape();
+            for (let a = 0; a < fullCircle * 3; a += 0.05) {
+                let r = a * 10;
+                let x = mycos(a + angle) * r;
+                let y = mysin(a + angle) * r;
+                vertex(x, y);
+            }
+            endShape();
+            
+            // Points animés
+            for (let i = 0; i < 20; i++) {
+                let a = map(i, 0, 20, 0, fullCircle) + angle;
+                let r = 200 + mysin(angle * 2 + i) * 50;
+                let x = mycos(a) * r;
+                let y = mysin(a) * r;
+                
+                fill(map(i, 0, 20, 200, 320), 100, 100);
+                noStroke();
+                circle(x, y, 20);
+            }
+            
+            // Texte explicatif
+            fill(255);
+            textAlign(CENTER);
+            textSize(16);
+            text('Si π = 4...', 0, -350);
+            textSize(12);
+            text('Les cercles deviennent des formes étranges', 0, -330);
+            
+            angle += 0.02;
+        }
+        
+        // Fonctions cosinus et sinus modifiées avec pi = 4
+        function mycos(a) {
+            // Approximation simple avec pi = 4
+            return cos(a * PI / FAKE_PI);
+        }
+        
+        function mysin(a) {
+            // Approximation simple avec pi = 4
+            return sin(a * PI / FAKE_PI);
+        }
+        
+        function mousePressed() {
+            angle = 0;
+        }
+    </script>
+</body>
+</html>

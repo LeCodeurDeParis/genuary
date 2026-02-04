@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 16 - Palette générative</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #2a2a2a; }
+    </style>
+</head>
+<body>
+    <script>
+        let palette = [];
+        
+        function setup() {
+            createCanvas(800, 800);
+            generatePalette();
+            noLoop();
+        }
+        
+        function draw() {
+            drawWithPalette();
+        }
+        
+        function generatePalette() {
+            palette = [];
+            
+            // Choisir un mode de génération
+            let mode = int(random(4));
+            
+            if (mode === 0) {
+                // Palette analogique
+                let baseHue = random(360);
+                colorMode(HSB);
+                for (let i = 0; i < 5; i++) {
+                    palette.push(color(
+                        (baseHue + i * 30) % 360,
+                        random(60, 90),
+                        random(50, 90)
+                    ));
+                }
+            } else if (mode === 1) {
+                // Palette complémentaire
+                let hue1 = random(360);
+                let hue2 = (hue1 + 180) % 360;
+                colorMode(HSB);
+                palette.push(color(hue1, 80, 70));
+                palette.push(color(hue1, 60, 85));
+                palette.push(color(hue2, 80, 70));
+                palette.push(color(hue2, 60, 85));
+                palette.push(color(random(360), 20, 95));
+            } else if (mode === 2) {
+                // Palette triadique
+                let baseHue = random(360);
+                colorMode(HSB);
+                for (let i = 0; i < 3; i++) {
+                    let h = (baseHue + i * 120) % 360;
+                    palette.push(color(h, 75, 65));
+                    palette.push(color(h, 50, 85));
+                }
+            } else {
+                // Palette monochrome
+                let baseHue = random(360);
+                colorMode(HSB);
+                for (let i = 0; i < 6; i++) {
+                    palette.push(color(
+                        baseHue,
+                        random(20, 80),
+                        map(i, 0, 5, 30, 95)
+                    ));
+                }
+            }
+            
+            colorMode(RGB);
+        }
+        
+        function drawWithPalette() {
+            // Afficher la palette en haut
+            let swatchWidth = width / palette.length;
+            for (let i = 0; i < palette.length; i++) {
+                fill(palette[i]);
+                noStroke();
+                rect(i * swatchWidth, 0, swatchWidth, 60);
+            }
+            
+            // Texte du mode
+            fill(255);
+            textSize(12);
+            textAlign(CENTER);
+            text('Click pour nouvelle palette', width/2, 40);
+            
+            // Créer une composition avec la palette
+            background(palette[0]);
+            
+            // Cercles de différentes tailles
+            for (let i = 0; i < 50; i++) {
+                fill(random(palette));
+                let x = random(width);
+                let y = random(100, height);
+                let size = random(20, 150);
+                circle(x, y, size);
+            }
+            
+            // Rectangles superposés
+            for (let i = 0; i < 30; i++) {
+                fill(random(palette));
+                let x = random(width);
+                let y = random(100, height);
+                let w = random(50, 200);
+                let h = random(50, 200);
+                push();
+                translate(x, y);
+                rotate(random(TWO_PI));
+                rect(-w/2, -h/2, w, h);
+                pop();
+            }
+            
+            // Lignes avec les couleurs de la palette
+            strokeWeight(5);
+            for (let i = 0; i < 100; i++) {
+                stroke(random(palette));
+                line(
+                    random(width), random(100, height),
+                    random(width), random(100, height)
+                );
+            }
+            
+            // Afficher la palette en haut (par-dessus tout)
+            for (let i = 0; i < palette.length; i++) {
+                fill(palette[i]);
+                noStroke();
+                rect(i * swatchWidth, 0, swatchWidth, 60);
+                
+                // Hex code
+                fill(0);
+                textSize(10);
+                textAlign(CENTER);
+                text('#' + hex(red(palette[i]), 2) + hex(green(palette[i]), 2) + hex(blue(palette[i]), 2), 
+                     i * swatchWidth + swatchWidth/2, 75);
+            }
+        }
+        
+        function mousePressed() {
+            generatePalette();
+            draw();
+        }
+    </script>
+</body>
+</html>

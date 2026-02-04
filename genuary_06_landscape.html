@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 06 - Paysage avec formes primitives</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #87CEEB; }
+    </style>
+</head>
+<body>
+    <script>
+        function setup() {
+            createCanvas(800, 800);
+            noStroke();
+            
+            // Ciel (rectangle)
+            fill(135, 206, 235);
+            rect(0, 0, width, height * 0.6);
+            
+            // Soleil (cercle)
+            fill(255, 220, 100);
+            circle(650, 120, 100);
+            
+            // Nuages (ellipses)
+            fill(255, 255, 255, 200);
+            ellipse(150, 100, 100, 50);
+            ellipse(180, 110, 80, 40);
+            ellipse(350, 150, 120, 60);
+            ellipse(380, 160, 90, 45);
+            
+            // Montagnes arrière (triangles)
+            fill(100, 120, 140);
+            triangle(0, 480, 300, 200, 600, 480);
+            triangle(250, 480, 500, 250, 800, 480);
+            
+            // Montagnes avant (triangles)
+            fill(70, 90, 110);
+            triangle(-50, 480, 250, 280, 550, 480);
+            triangle(400, 480, 650, 300, 900, 480);
+            
+            // Sol/herbe (rectangle)
+            fill(100, 180, 80);
+            rect(0, 480, width, height - 480);
+            
+            // Arbres (triangles + rectangles)
+            drawTree(200, 500);
+            drawTree(350, 520);
+            drawTree(550, 510);
+            drawTree(700, 530);
+            
+            // Lac (ellipse)
+            fill(100, 150, 200, 180);
+            ellipse(400, 600, 300, 120);
+            
+            // Rochers (ellipses)
+            fill(120, 120, 120);
+            ellipse(150, 640, 60, 40);
+            ellipse(180, 650, 50, 35);
+            ellipse(600, 630, 70, 45);
+        }
+        
+        function drawTree(x, y) {
+            // Tronc (rectangle)
+            fill(101, 67, 33);
+            rect(x - 10, y, 20, 60);
+            
+            // Feuillage (triangle)
+            fill(34, 139, 34);
+            triangle(x - 40, y + 20, x, y - 50, x + 40, y + 20);
+            triangle(x - 35, y, x, y - 60, x + 35, y);
+            triangle(x - 30, y - 20, x, y - 70, x + 30, y - 20);
+        }
+        
+        function mousePressed() {
+            setup();
+        }
+    </script>
+</body>
+</html>

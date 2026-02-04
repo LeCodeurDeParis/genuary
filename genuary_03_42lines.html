@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 03 - Exactement 42 lignes</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
+    </style>
+</head>
+<body>
+    <script>
+let t=0;
+function setup(){
+createCanvas(800,800);
+colorMode(HSB);
+}
+function draw(){
+background(0,10);
+translate(width/2,height/2);
+for(let i=0;i<42;i++){
+push();
+rotate(t+i*TWO_PI/42);
+let x=cos(t*2+i)*150;
+let y=sin(t*3+i)*150;
+fill(i*255/42,200,255,100);
+noStroke();
+circle(x,y,30+sin(t*4+i)*20);
+stroke(255);
+strokeWeight(2);
+line(0,0,x,y);
+pop();
+}
+for(let i=0;i<42;i++){
+let r=100+i*5;
+let a=t+i*TWO_PI/42;
+let x=cos(a)*r;
+let y=sin(a)*r;
+fill(255-i*6,200,255);
+noStroke();
+circle(x,y,10);
+}
+t+=0.02;
+}
+function mousePressed(){
+t=random(TWO_PI);
+}
+    </script>
+</body>
+</html>

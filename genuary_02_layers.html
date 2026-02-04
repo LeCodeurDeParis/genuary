@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 02 - Couches sur couches</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #0a0a0a; }
+        main { text-align: center; }
+    </style>
+</head>
+<body>
+    <main></main>
+    <script>
+        function setup() {
+            createCanvas(800, 800);
+            background(10, 5, 20);
+            noStroke();
+            
+            // Couche 1 : Cercles géants semi-transparents
+            for (let i = 0; i < 8; i++) {
+                fill(random(100, 200), random(50, 150), random(150, 255), 30);
+                circle(random(width), random(height), random(300, 600));
+            }
+            
+            // Couche 2 : Rectangles avec rotation
+            push();
+            translate(width/2, height/2);
+            for (let i = 0; i < 12; i++) {
+                rotate(PI / 6);
+                fill(random(200, 255), random(100, 200), random(50, 100), 40);
+                rect(-width/3, -height/3, random(200, 400), random(200, 400));
+            }
+            pop();
+            
+            // Couche 3 : Grille de petits cercles
+            for (let x = 0; x < width; x += 30) {
+                for (let y = 0; y < height; y += 30) {
+                    fill(random(150, 255), random(100, 255), random(200, 255), random(20, 80));
+                    circle(x + random(-10, 10), y + random(-10, 10), random(5, 25));
+                }
+            }
+            
+            // Couche 4 : Bandes verticales
+            for (let x = 0; x < width; x += 50) {
+                fill(random(50, 150), random(100, 200), random(150, 255), 25);
+                rect(x, 0, random(20, 40), height);
+            }
+            
+            // Couche 5 : Texture finale de points
+            for (let i = 0; i < 3000; i++) {
+                fill(random(200, 255), random(200, 255), random(150, 255), random(10, 50));
+                circle(random(width), random(height), random(1, 4));
+            }
+        }
+        
+        function mousePressed() {
+            setup();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 28 - Parchemin infini</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #1a1a1a; }
+    </style>
+</head>
+<body>
+    <script>
+        let yOffset = 0;
+        let scrollSpeed = 2;
+        let segments = [];
+        
+        function setup() {
+            createCanvas(800, 800);
+            colorMode(HSB);
+            
+            // Initialiser les segments
+            for (let i = 0; i < 10; i++) {
+                segments.push(new Segment(i * 200));
+            }
+        }
+        
+        function draw() {
+            background(26, 26, 46);
+            
+            // Déplacer et dessiner les segments
+            for (let i = segments.length - 1; i >= 0; i--) {
+                segments[i].update(scrollSpeed);
+                segments[i].display();
+                
+                // Supprimer les segments qui sortent de l'écran
+                if (segments[i].y > height + 200) {
+                    segments.splice(i, 1);
+                }
+            }
+            
+            // Ajouter de nouveaux segments
+            if (segments.length === 0 || segments[0].y > 0) {
+                let newY = segments.length > 0 ? segments[0].y - 200 : -200;
+                segments.unshift(new Segment(newY));
+            }
+            
+            yOffset += scrollSpeed;
+            
+            // Instructions
+            fill(255);
+            textSize(14);
+            textAlign(CENTER);
+            text('↑↓ pour contrôler la vitesse | ESPACE pour inverser', width/2, 30);
+        }
+        
+        class Segment {
+            constructor(y) {
+                this.y = y;
+                this.type = int(random(4));
+                this.color = color(random(360), 70, 80);
+            }
+            
+            update(speed) {
+                this.y += speed;
+            }
+            
+            display() {
+                push();
+                translate(0, this.y);
+                
+                if (this.type === 0) {
+                    // Motif de cercles
+                    for (let x = 50; x < width - 50; x += 60) {
+                        fill(this.color);
+                        noStroke();
+                        circle(x, 100, 40);
+                        
+                        noFill();
+                        stroke(this.color);
+                        strokeWeight(2);
+                        circle(x, 100, 60);
+                    }
+                } else if (this.type === 1) {
+                    // Motif de vagues
+                    noFill();
+                    stroke(this.color);
+                    strokeWeight(3);
+                    for (let wave = 0; wave < 3; wave++) {
+                        beginShape();
+                        for (let x = 0; x < width; x += 10) {
+                            let y = 100 + sin(x * 0.02 + wave + yOffset * 0.01) * 30;
+                            vertex(x, y);
+                        }
+                        endShape();
+                    }
+                } else if (this.type === 2) {
+                    // Motif de rectangles
+                    for (let x = 50; x < width - 50; x += 80) {
+                        fill(this.color);
+                        stroke(255);
+                        strokeWeight(2);
+                        rect(x - 30, 70, 60, 60);
+                        
+                        fill(0, 0, 100);
+                        noStroke();
+                        rect(x - 20, 80, 40, 40);
+                    }
+                } else {
+                    // Motif de triangles
+                    fill(this.color);
+                    noStroke();
+                    for (let x = 50; x < width - 50; x += 70) {
+                        triangle(x, 70, x - 25, 130, x + 25, 130);
+                        
+                        fill(hue(this.color), saturation(this.color), brightness(this.color) * 0.7);
+                        triangle(x, 90, x - 15, 120, x + 15, 120);
+                        fill(this.color);
+                    }
+                }
+                
+                // Ligne de séparation
+                stroke(200);
+                strokeWeight(1);
+                line(0, 180, width, 180);
+                
+                pop();
+            }
+        }
+        
+        function keyPressed() {
+            if (keyCode === UP_ARROW) {
+                scrollSpeed = min(scrollSpeed + 1, 10);
+            } else if (keyCode === DOWN_ARROW) {
+                scrollSpeed = max(scrollSpeed - 1, -10);
+            } else if (key === ' ') {
+                scrollSpeed *= -1;
+            }
+        }
+        
+        function mouseWheel(event) {
+            scrollSpeed += event.delta * 0.01;
+            scrollSpeed = constrain(scrollSpeed, -10, 10);
+        }
+    </script>
+</body>
+</html>

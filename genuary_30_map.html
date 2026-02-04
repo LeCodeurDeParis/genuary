@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 30 - Carte abstraite</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #e8f0e8; }
+    </style>
+</head>
+<body>
+    <script>
+        let roads = [];
+        let buildings = [];
+        let parks = [];
+        
+        function setup() {
+            createCanvas(800, 800);
+            noLoop();
+            generateMap();
+        }
+        
+        function generateMap() {
+            roads = [];
+            buildings = [];
+            parks = [];
+            
+            // Générer un réseau de routes
+            // Routes principales horizontales
+            for (let y = 100; y < height; y += random(80, 150)) {
+                roads.push({
+                    type: 'horizontal',
+                    pos: y,
+                    width: random(8, 15)
+                });
+            }
+            
+            // Routes principales verticales
+            for (let x = 100; x < width; x += random(80, 150)) {
+                roads.push({
+                    type: 'vertical',
+                    pos: x,
+                    width: random(8, 15)
+                });
+            }
+            
+            // Générer des bâtiments dans les blocs
+            for (let i = 0; i < 50; i++) {
+                buildings.push({
+                    x: random(50, width - 50),
+                    y: random(50, height - 50),
+                    w: random(20, 60),
+                    h: random(20, 60),
+                    type: random(['residential', 'commercial', 'industrial'])
+                });
+            }
+            
+            // Générer des espaces verts
+            for (let i = 0; i < 8; i++) {
+                parks.push({
+                    x: random(100, width - 100),
+                    y: random(100, height - 100),
+                    size: random(80, 150)
+                });
+            }
+        }
+        
+        function draw() {
+            // Fond (couleur de base)
+            background(240, 238, 230);
+            
+            // Dessiner les espaces verts
+            fill(180, 220, 180);
+            noStroke();
+            for (let park of parks) {
+                ellipse(park.x, park.y, park.size, park.size);
+                
+                // Détails du parc
+                fill(160, 200, 160);
+                ellipse(park.x, park.y, park.size * 0.6, park.size * 0.6);
+                
+                // Arbres symboliques
+                fill(100, 160, 100);
+                for (let i = 0; i < 5; i++) {
+                    let angle = random(TWO_PI);
+                    let dist = random(park.size * 0.2);
+                    let tx = park.x + cos(angle) * dist;
+                    let ty = park.y + sin(angle) * dist;
+                    circle(tx, ty, 8);
+                }
+            }
+            
+            // Dessiner les routes
+            fill(200, 200, 195);
+            noStroke();
+            for (let road of roads) {
+                if (road.type === 'horizontal') {
+                    rect(0, road.pos - road.width / 2, width, road.width);
+                    
+                    // Marquage routier
+                    stroke(255, 255, 240);
+                    strokeWeight(1);
+                    for (let x = 0; x < width; x += 30) {
+                        line(x, road.pos, x + 15, road.pos);
+                    }
+                    noStroke();
+                } else {
+                    rect(road.pos - road.width / 2, 0, road.width, height);
+                    
+                    // Marquage routier
+                    stroke(255, 255, 240);
+                    strokeWeight(1);
+                    for (let y = 0; y < height; y += 30) {
+                        line(road.pos, y, road.pos, y + 15);
+                    }
+                    noStroke();
+                }
+            }
+            
+            // Dessiner les bâtiments
+            for (let building of buildings) {
+                if (building.type === 'residential') {
+                    fill(220, 180, 160);
+                } else if (building.type === 'commercial') {
+                    fill(160, 180, 220);
+                } else {
+                    fill(180, 180, 170);
+                }
+                
+                stroke(140, 140, 130);
+                strokeWeight(1);
+                rect(building.x, building.y, building.w, building.h);
+                
+                // Ombre
+                fill(0, 0, 0, 30);
+                noStroke();
+                rect(building.x + 3, building.y + building.h, building.w, 3);
+                
+                // Fenêtres
+                fill(100, 150, 200, 100);
+                let windowSize = 4;
+                let windowSpacing = 8;
+                for (let wx = building.x + 6; wx < building.x + building.w - 6; wx += windowSpacing) {
+                    for (let wy = building.y + 6; wy < building.y + building.h - 6; wy += windowSpacing) {
+                        rect(wx, wy, windowSize, windowSize);
+                    }
+                }
+            }
+            
+            // Ajouter des points d'intérêt
+            drawPOI(100, 100, 'M', color(220, 50, 50)); // Métro
+            drawPOI(700, 150, 'H', color(50, 150, 220)); // Hôpital
+            drawPOI(400, 650, 'S', color(255, 200, 50)); // École
+            drawPOI(650, 600, 'P', color(180, 100, 220)); // Parking
+            
+            // Légende
+            drawLegend();
+        }
+        
+        function drawPOI(x, y, label, col) {
+            fill(col);
+            stroke(255);
+            strokeWeight(2);
+            circle(x, y, 30);
+            
+            fill(255);
+            noStroke();
+            textAlign(CENTER, CENTER);
+            textSize(16);
+            textStyle(BOLD);
+            text(label, x, y);
+        }
+        
+        function drawLegend() {
+            push();
+            fill(255, 255, 255, 230);
+            stroke(100);
+            strokeWeight(1);
+            rect(20, height - 120, 180, 100);
+            
+            noStroke();
+            fill(50);
+            textSize(12);
+            textAlign(LEFT, CENTER);
+            textStyle(NORMAL);
+            
+            // Items de légende
+            fill(220, 180, 160);
+            rect(30, height - 105, 15, 15);
+            fill(50);
+            text('Résidentiel', 50, height - 97);
+            
+            fill(160, 180, 220);
+            rect(30, height - 80, 15, 15);
+            fill(50);
+            text('Commercial', 50, height - 72);
+            
+            fill(180, 220, 180);
+            rect(30, height - 55, 15, 15);
+            fill(50);
+            text('Parc', 50, height - 47);
+            
+            fill(200, 200, 195);
+            rect(30, height - 30, 15, 15);
+            fill(50);
+            text('Route', 50, height - 22);
+            
+            pop();
+        }
+        
+        function mousePressed() {
+            generateMap();
+            draw();
+        }
+    </script>
+</body>
+</html>

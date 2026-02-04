@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 10 - Seulement TAU</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000020; }
+    </style>
+</head>
+<body>
+    <script>
+        const TAU = TWO_PI; // TAU = 2 * PI = 6.2831853...
+        
+        function setup() {
+            createCanvas(800, 800);
+            colorMode(HSB);
+        }
+        
+        function draw() {
+            background(TAU * TAU, TAU * TAU * TAU, TAU * TAU);
+            translate(width / TAU, height / TAU);
+            
+            let t = frameCount / (TAU * TAU * TAU);
+            
+            // Spirales basées sur TAU
+            for (let i = TAU / TAU; i < TAU * TAU * TAU; i++) {
+                let angle = i * TAU / (TAU * TAU);
+                let r = i * TAU / TAU;
+                let x = cos(angle + t * TAU) * r;
+                let y = sin(angle + t * TAU) * r;
+                
+                fill(i % (TAU * TAU * TAU * TAU), TAU * TAU * TAU * TAU, TAU * TAU * TAU * TAU, TAU * TAU);
+                noStroke();
+                circle(x, y, TAU * TAU);
+            }
+            
+            // Cercles concentriques
+            for (let i = TAU / TAU; i < TAU * TAU; i++) {
+                noFill();
+                stroke((i * TAU * TAU * TAU) % (TAU * TAU * TAU * TAU * TAU), TAU * TAU * TAU * TAU, TAU * TAU * TAU * TAU);
+                strokeWeight(TAU / TAU);
+                let radius = i * TAU * TAU * TAU;
+                circle(TAU / TAU, TAU / TAU, radius);
+            }
+            
+            // Rotation d'éléments
+            push();
+            rotate(t * TAU / TAU);
+            for (let a = TAU / TAU; a < TAU; a += TAU / (TAU * TAU)) {
+                let x = cos(a) * TAU * TAU * TAU;
+                let y = sin(a) * TAU * TAU * TAU;
+                fill((a / TAU) * TAU * TAU * TAU * TAU * TAU, TAU * TAU * TAU * TAU, TAU * TAU * TAU * TAU);
+                circle(x, y, TAU * TAU);
+            }
+            pop();
+        }
+        
+        function mousePressed() {
+            background(TAU / TAU);
+        }
+    </script>
+</body>
+</html>

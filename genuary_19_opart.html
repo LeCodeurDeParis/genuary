@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 19 - Op Art</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <script>
+        let angle = 0;
+        
+        function setup() {
+            createCanvas(800, 800);
+        }
+        
+        function draw() {
+            background(255);
+            
+            // Motif Op Art avec illusion de mouvement
+            let spacing = 15;
+            
+            for (let y = 0; y < height; y += spacing) {
+                stroke(0);
+                strokeWeight(spacing * 0.4);
+                
+                // Créer l'ondulation
+                beginShape();
+                for (let x = 0; x <= width; x += 5) {
+                    let wave1 = sin((x * 0.02) + (y * 0.015) + angle) * 30;
+                    let wave2 = cos((x * 0.015) - (y * 0.02) + angle * 0.7) * 20;
+                    let py = y + wave1 + wave2;
+                    vertex(x, py);
+                }
+                endShape();
+            }
+            
+            // Deuxième couche avec effet moiré
+            push();
+            translate(width/2, height/2);
+            rotate(angle * 0.5);
+            
+            noFill();
+            for (let r = 20; r < 400; r += 10) {
+                if (r % 20 < 10) {
+                    stroke(0);
+                } else {
+                    stroke(255);
+                }
+                strokeWeight(8);
+                
+                // Cercles déformés
+                beginShape();
+                for (let a = 0; a < TWO_PI; a += 0.1) {
+                    let offset = sin(a * 5 + angle) * 10;
+                    let x = cos(a) * (r + offset);
+                    let y = sin(a) * (r + offset);
+                    vertex(x, y);
+                }
+                endShape(CLOSE);
+            }
+            pop();
+            
+            // Grille de carrés avec effet de distorsion
+            noStroke();
+            let gridSize = 40;
+            for (let x = 0; x < width; x += gridSize) {
+                for (let y = 0; y < height; y += gridSize) {
+                    let d = dist(x, y, width/2, height/2);
+                    let offset = map(sin(d * 0.05 + angle * 2), -1, 1, 0, gridSize * 0.8);
+                    
+                    if ((x + y) % (gridSize * 2) === 0) {
+                        fill(0);
+                        rect(x + offset/2, y + offset/2, gridSize - offset, gridSize - offset);
+                    }
+                }
+            }
+            
+            angle += 0.02;
+        }
+        
+        function mousePressed() {
+            angle = 0;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 08 - Un million de quelque chose</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
+        #counter { position: absolute; top: 20px; left: 20px; color: white; font-family: monospace; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <div id="counter">Points: 0</div>
+    <script>
+        let count = 0;
+        const TOTAL = 1000000;
+        let currentBatch = 0;
+        const BATCH_SIZE = 50000;
+        
+        function setup() {
+            createCanvas(800, 800);
+            background(0);
+            colorMode(HSB, 360, 100, 100, 100);
+            noStroke();
+        }
+        
+        function draw() {
+            if (count < TOTAL) {
+                // Dessiner un batch de points
+                for (let i = 0; i < BATCH_SIZE && count < TOTAL; i++) {
+                    let x = randomGaussian(width/2, width/4);
+                    let y = randomGaussian(height/2, height/4);
+                    
+                    // Couleur basée sur la distance au centre
+                    let d = dist(x, y, width/2, height/2);
+                    let hue = map(d, 0, 400, 180, 320);
+                    let brightness = map(d, 0, 400, 80, 20);
+                    
+                    fill(hue, 70, brightness, 10);
+                    circle(x, y, 1);
+                    
+                    count++;
+                }
+                
+                // Mise à jour du compteur
+                document.getElementById('counter').textContent = 
+                    `Points: ${count.toLocaleString()} / ${TOTAL.toLocaleString()}`;
+                
+                currentBatch++;
+            } else if (count === TOTAL) {
+                // Texte final
+                fill(255, 0, 100, 100);
+                textAlign(CENTER, CENTER);
+                textSize(32);
+                textFont('monospace');
+                text('1,000,000 POINTS', width/2, height/2);
+                count++; // Pour ne pas redessiner
+            }
+        }
+        
+        function mousePressed() {
+            count = 0;
+            currentBatch = 0;
+            background(0);
+            document.getElementById('counter').textContent = 'Points: 0';
+        }
+    </script>
+</body>
+</html>

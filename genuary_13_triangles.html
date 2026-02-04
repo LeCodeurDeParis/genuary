@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 13 - Des triangles et rien d'autre</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #1a1a2e; }
+    </style>
+</head>
+<body>
+    <script>
+        function setup() {
+            createCanvas(800, 800);
+            colorMode(HSB);
+            noLoop();
+            drawTriangles();
+        }
+        
+        function drawTriangles() {
+            background(26, 26, 46);
+            
+            // Grands triangles de fond
+            for (let i = 0; i < 15; i++) {
+                fill(random(180, 280), random(50, 80), random(30, 60), 0.3);
+                noStroke();
+                triangle(
+                    random(width), random(height),
+                    random(width), random(height),
+                    random(width), random(height)
+                );
+            }
+            
+            // Triangles moyens avec contours
+            for (let i = 0; i < 30; i++) {
+                fill(random(200, 300), random(60, 90), random(50, 80), 0.5);
+                stroke(random(220, 320), 80, 90, 0.8);
+                strokeWeight(2);
+                triangle(
+                    random(width), random(height),
+                    random(width), random(height),
+                    random(width), random(height)
+                );
+            }
+            
+            // Grille de petits triangles
+            let spacing = 60;
+            for (let x = 0; x < width; x += spacing) {
+                for (let y = 0; y < height; y += spacing) {
+                    let s = spacing * 0.8;
+                    
+                    // Triangle pointant vers le haut
+                    fill(map(x, 0, width, 200, 280), 70, 70, 0.6);
+                    stroke(map(y, 0, height, 220, 300), 80, 90);
+                    strokeWeight(1);
+                    triangle(
+                        x + spacing/2, y + 10,
+                        x + 10, y + s,
+                        x + spacing - 10, y + s
+                    );
+                    
+                    // Triangle pointant vers le bas (parfois)
+                    if (random() < 0.5) {
+                        fill(map(y, 0, height, 260, 340), 60, 60, 0.4);
+                        triangle(
+                            x + spacing/2, y + s - 10,
+                            x + 10, y + 10,
+                            x + spacing - 10, y + 10
+                        );
+                    }
+                }
+            }
+            
+            // Triangles d'accent lumineux
+            for (let i = 0; i < 50; i++) {
+                fill(random(40, 60), random(80, 100), random(90, 100), 0.7);
+                noStroke();
+                let cx = random(width);
+                let cy = random(height);
+                let size = random(5, 30);
+                triangle(
+                    cx, cy - size,
+                    cx - size * 0.866, cy + size * 0.5,
+                    cx + size * 0.866, cy + size * 0.5
+                );
+            }
+        }
+        
+        function mousePressed() {
+            drawTriangles();
+        }
+    </script>
+</body>
+</html>

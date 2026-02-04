@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 2025 - Collection Complète</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .day-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .day-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .day-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .day-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .day-description {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 GENUARY 2025</h1>
+        <p class="subtitle">31 créations génératives | Art par IA avec p5.js</p>
+        
+        <div class="grid">
+            <div class="day-card" onclick="window.open('genuary_01_lines.html', '_blank')">
+                <div class="day-number">01</div>
+                <div class="day-title">Lignes verticales/horizontales</div>
+                <div class="day-description">Uniquement des lignes verticales ou horizontales</div>
+                <a href="genuary_01_lines.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_02_layers.html', '_blank')">
+                <div class="day-number">02</div>
+                <div class="day-title">Couches sur couches</div>
+                <div class="day-description">Superposition de multiples couches</div>
+                <a href="genuary_02_layers.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_03_42lines.html', '_blank')">
+                <div class="day-number">03</div>
+                <div class="day-title">42 lignes de code</div>
+                <div class="day-description">Exactement 42 lignes, pas une de plus</div>
+                <a href="genuary_03_42lines.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_04_black.html', '_blank')">
+                <div class="day-number">04</div>
+                <div class="day-title">Noir sur noir</div>
+                <div class="day-description">Nuances subtiles de noir</div>
+                <a href="genuary_04_black.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_05_isometric.html', '_blank')">
+                <div class="day-number">05</div>
+                <div class="day-title">Art isométrique</div>
+                <div class="day-description">Perspective isométrique sans points de fuite</div>
+                <a href="genuary_05_isometric.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_06_landscape.html', '_blank')">
+                <div class="day-number">06</div>
+                <div class="day-title">Paysage primitif</div>
+                <div class="day-description">Paysage avec formes géométriques simples</div>
+                <a href="genuary_06_landscape.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_07_software.html', '_blank')">
+                <div class="day-number">07</div>
+                <div class="day-title">Logiciel détourné</div>
+                <div class="day-description">Art avec logiciel non prévu pour l'art</div>
+                <a href="genuary_07_software.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_08_million.html', '_blank')">
+                <div class="day-number">08</div>
+                <div class="day-title">Un million</div>
+                <div class="day-description">Dessiner un million d'éléments</div>
+                <a href="genuary_08_million.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_09_textile.html', '_blank')">
+                <div class="day-number">09</div>
+                <div class="day-title">Motifs textile</div>
+                <div class="day-description">Motifs des sièges de transport public</div>
+                <a href="genuary_09_textile.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_10_tau.html', '_blank')">
+                <div class="day-number">10</div>
+                <div class="day-title">Seulement TAU</div>
+                <div class="day-description">Uniquement TAU (2π) dans le code</div>
+                <a href="genuary_10_tau.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_11_impossible.html', '_blank')">
+                <div class="day-number">11</div>
+                <div class="day-title">Journée impossible</div>
+                <div class="day-description">Tentative de l'impossible</div>
+                <a href="genuary_11_impossible.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_12_subdivision.html', '_blank')">
+                <div class="day-number">12</div>
+                <div class="day-title">Subdivision</div>
+                <div class="day-description">Division récursive de l'espace</div>
+                <a href="genuary_12_subdivision.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_13_triangles.html', '_blank')">
+                <div class="day-number">13</div>
+                <div class="day-title">Triangles uniquement</div>
+                <div class="day-description">Que des triangles, rien d'autre</div>
+                <a href="genuary_13_triangles.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_14_blackwhite.html', '_blank')">
+                <div class="day-number">14</div>
+                <div class="day-title">Noir et blanc pur</div>
+                <div class="day-description">Pas de gris, uniquement noir et blanc</div>
+                <a href="genuary_14_blackwhite.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_15_rug.html', '_blank')">
+                <div class="day-number">15</div>
+                <div class="day-title">Design de tapis</div>
+                <div class="day-description">Concevoir un tapis décoratif</div>
+                <a href="genuary_15_rug.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_16_palette.html', '_blank')">
+                <div class="day-number">16</div>
+                <div class="day-title">Palette générative</div>
+                <div class="day-description">Génération automatique de palettes</div>
+                <a href="genuary_16_palette.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_17_pi4.html', '_blank')">
+                <div class="day-number">17</div>
+                <div class="day-title">Si π = 4</div>
+                <div class="day-description">Que se passe-t-il si pi vaut 4?</div>
+                <a href="genuary_17_pi4.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_18_wind.html', '_blank')">
+                <div class="day-number">18</div>
+                <div class="day-title">Visualiser le vent</div>
+                <div class="day-description">À quoi ressemble le vent?</div>
+                <a href="genuary_18_wind.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_19_opart.html', '_blank')">
+                <div class="day-number">19</div>
+                <div class="day-title">Op Art</div>
+                <div class="day-description">Art optique et illusions</div>
+                <a href="genuary_19_opart.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_20_architecture.html', '_blank')">
+                <div class="day-number">20</div>
+                <div class="day-title">Architecture générative</div>
+                <div class="day-description">Création de structures architecturales</div>
+                <a href="genuary_20_architecture.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_21_collision.html', '_blank')">
+                <div class="day-number">21</div>
+                <div class="day-title">Détection collision</div>
+                <div class="day-description">Système de collision sans bibliothèque</div>
+                <a href="genuary_21_collision.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_22_gradients.html', '_blank')">
+                <div class="day-number">22</div>
+                <div class="day-title">Dégradés uniquement</div>
+                <div class="day-description">Que des dégradés de couleurs</div>
+                <a href="genuary_22_gradients.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_23_brutalism.html', '_blank')">
+                <div class="day-number">23</div>
+                <div class="day-title">Brutalisme</div>
+                <div class="day-description">Inspiré par l'architecture brutaliste</div>
+                <a href="genuary_23_brutalism.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_24_geometric.html', '_blank')">
+                <div class="day-number">24</div>
+                <div class="day-title">Géométrie unique</div>
+                <div class="day-description">Une seule forme géométrique</div>
+                <a href="genuary_24_geometric.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_25_line.html', '_blank')">
+                <div class="day-number">25</div>
+                <div class="day-title">Ligne croisée</div>
+                <div class="day-description">Une ligne qui peut se croiser</div>
+                <a href="genuary_25_line.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_26_symmetry.html', '_blank')">
+                <div class="day-number">26</div>
+                <div class="day-title">Symétrie</div>
+                <div class="day-description">Explorations symétriques</div>
+                <a href="genuary_26_symmetry.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_27_deterministic.html', '_blank')">
+                <div class="day-number">27</div>
+                <div class="day-title">Déterministe</div>
+                <div class="day-description">Sans hasard ni bruit</div>
+                <a href="genuary_27_deterministic.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_28_scroll.html', '_blank')">
+                <div class="day-number">28</div>
+                <div class="day-title">Parchemin infini</div>
+                <div class="day-description">Défilement sans fin</div>
+                <a href="genuary_28_scroll.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_29_grid.html', '_blank')">
+                <div class="day-number">29</div>
+                <div class="day-title">Design sur grille</div>
+                <div class="day-description">Graphisme basé sur une grille</div>
+                <a href="genuary_29_grid.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_30_map.html', '_blank')">
+                <div class="day-number">30</div>
+                <div class="day-title">Carte abstraite</div>
+                <div class="day-description">Représentation cartographique abstraite</div>
+                <a href="genuary_30_map.html" class="btn" target="_blank">Voir →</a>
+            </div>
+            
+            <div class="day-card" onclick="window.open('genuary_31_pixelsort.html', '_blank')">
+                <div class="day-number">31</div>
+                <div class="day-title">Tri de pixels</div>
+                <div class="day-description">Pixels triés par propriété</div>
+                <a href="genuary_31_pixelsort.html" class="btn" target="_blank">Voir →</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>🎨 Genuary 2025 - Art génératif créé par IA avec p5.js</p>
+            <p>Cliquez sur n'importe quelle carte pour explorer l'art génératif du jour</p>
+        </footer>
+    </div>
+</body>
+</html>

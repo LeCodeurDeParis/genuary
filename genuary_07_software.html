@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 07 - Logiciel non destiné à l'art</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #1e1e1e; }
+    </style>
+</head>
+<body>
+    <script>
+        // Simulation d'un éditeur de code comme VS Code
+        let codeLines = [];
+        let colors;
+        
+        function setup() {
+            createCanvas(800, 800);
+            
+            colors = {
+                bg: color(30, 30, 30),
+                keyword: color(86, 156, 214),
+                string: color(206, 145, 120),
+                comment: color(106, 153, 85),
+                function: color(220, 220, 170),
+                number: color(181, 206, 168),
+                text: color(212, 212, 212)
+            };
+            
+            generateCode();
+        }
+        
+        function generateCode() {
+            background(colors.bg);
+            
+            let y = 40;
+            textFont('Consolas, monospace');
+            textSize(14);
+            
+            // Lignes de code stylisées comme un éditeur
+            let lines = [
+                {text: "// Artistic Pattern Generator", color: colors.comment},
+                {text: "function createPattern() {", color: colors.keyword},
+                {text: "  let x = random(width);", color: colors.text},
+                {text: "  let y = random(height);", color: colors.text},
+                {text: "  let size = 50;", color: colors.number},
+                {text: "  fill(255, 100, 150);", color: colors.function},
+                {text: "  circle(x, y, size);", color: colors.function},
+                {text: "}", color: colors.keyword}
+            ];
+            
+            // Dessiner plusieurs blocs de code avec effet visuel
+            for (let row = 0; row < 20; row++) {
+                for (let i = 0; i < lines.length; i++) {
+                    let lineY = y + row * 200 + i * 18;
+                    
+                    // Numéro de ligne
+                    fill(60, 60, 60);
+                    noStroke();
+                    text((row * 10 + i + 1).toString().padStart(3, ' '), 10, lineY);
+                    
+                    // Code avec effet de distorsion
+                    fill(lines[i].color);
+                    let offset = sin((lineY + frameCount) * 0.02) * 5;
+                    text(lines[i].text, 60 + offset, lineY);
+                    
+                    // Soulignement aléatoire (erreurs/warnings)
+                    if (random() < 0.1) {
+                        stroke(255, 200, 0, 150);
+                        strokeWeight(2);
+                        let textW = textWidth(lines[i].text);
+                        line(60, lineY + 3, 60 + textW, lineY + 3);
+                        noStroke();
+                    }
+                }
+            }
+            
+            // Curseur clignotant
+            if (frameCount % 60 < 30) {
+                fill(255);
+                rect(200, 100, 2, 16);
+            }
+            
+            // Points colorés (comme des breakpoints)
+            for (let i = 0; i < 30; i++) {
+                fill(random([colors.keyword, colors.string, colors.number]));
+                circle(40, random(height), 8);
+            }
+        }
+        
+        function draw() {
+            generateCode();
+        }
+        
+        function mousePressed() {
+            generateCode();
+        }
+    </script>
+</body>
+</html>

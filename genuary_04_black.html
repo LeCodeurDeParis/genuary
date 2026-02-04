@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 04 - Noir sur noir</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
+    </style>
+</head>
+<body>
+    <script>
+        function setup() {
+            createCanvas(800, 800);
+            background(0);
+            noFill();
+            
+            // Cercles concentriques en noir légèrement plus clair
+            for (let i = 0; i < 50; i++) {
+                stroke(5 + i * 0.5, 5 + i * 0.5, 8 + i * 0.6);
+                strokeWeight(2);
+                circle(width/2, height/2, 700 - i * 14);
+            }
+            
+            // Motifs géométriques subtils
+            push();
+            translate(width/2, height/2);
+            for (let a = 0; a < TWO_PI; a += PI/12) {
+                push();
+                rotate(a);
+                stroke(15, 15, 18);
+                strokeWeight(1);
+                for (let r = 50; r < 350; r += 20) {
+                    let x1 = r;
+                    let y1 = -10;
+                    let x2 = r;
+                    let y2 = 10;
+                    line(x1, y1, x2, y2);
+                }
+                pop();
+            }
+            pop();
+            
+            // Grille de rectangles noirs sur noir
+            for (let x = 100; x < width - 100; x += 80) {
+                for (let y = 100; y < height - 100; y += 80) {
+                    fill(8, 8, 10);
+                    noStroke();
+                    rect(x, y, 60, 60);
+                    stroke(18, 18, 22);
+                    strokeWeight(1);
+                    noFill();
+                    rect(x + 5, y + 5, 50, 50);
+                }
+            }
+            
+            // Texture de bruit subtile
+            for (let i = 0; i < 5000; i++) {
+                stroke(random(5, 25), random(5, 25), random(8, 30));
+                strokeWeight(1);
+                point(random(width), random(height));
+            }
+        }
+        
+        function mousePressed() {
+            setup();
+        }
+    </script>
+</body>
+</html>

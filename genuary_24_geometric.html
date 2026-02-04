@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genuary 24 - Art géométrique - Cercles uniquement</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #0f0f0f; }
+    </style>
+</head>
+<body>
+    <script>
+        function setup() {
+            createCanvas(800, 800);
+            colorMode(HSB);
+            noLoop();
+            drawCircles();
+        }
+        
+        function drawCircles() {
+            background(15, 15, 15);
+            
+            // Grands cercles de fond
+            noFill();
+            for (let i = 0; i < 15; i++) {
+                stroke(random(180, 280), 60, 70, 0.3);
+                strokeWeight(random(2, 8));
+                let x = random(width);
+                let y = random(height);
+                let size = random(100, 400);
+                circle(x, y, size);
+            }
+            
+            // Cercles concentriques
+            for (let i = 0; i < 5; i++) {
+                let cx = random(width);
+                let cy = random(height);
+                let hue = random(360);
+                
+                for (let r = 20; r < 200; r += 15) {
+                    noFill();
+                    stroke(hue, 80, map(r, 20, 200, 90, 40));
+                    strokeWeight(2);
+                    circle(cx, cy, r);
+                }
+            }
+            
+            // Motif de cercles tangents
+            let gridSize = 80;
+            for (let x = gridSize; x < width; x += gridSize) {
+                for (let y = gridSize; y < height; y += gridSize) {
+                    // Cercle principal
+                    fill(map(x, 0, width, 200, 320), 70, 70, 0.6);
+                    noStroke();
+                    circle(x, y, gridSize * 0.8);
+                    
+                    // Petit cercle interne
+                    fill(map(y, 0, height, 40, 100), 90, 90);
+                    circle(x, y, gridSize * 0.3);
+                    
+                    // Cercles satellites
+                    noFill();
+                    stroke(map(x + y, 0, width + height, 260, 360), 80, 80);
+                    strokeWeight(2);
+                    for (let a = 0; a < TWO_PI; a += PI/2) {
+                        let sx = x + cos(a) * gridSize * 0.5;
+                        let sy = y + sin(a) * gridSize * 0.5;
+                        circle(sx, sy, gridSize * 0.2);
+                    }
+                }
+            }
+            
+            // Spirale de cercles
+            push();
+            translate(width/2, height/2);
+            for (let a = 0; a < TWO_PI * 4; a += 0.3) {
+                let r = a * 15;
+                let x = cos(a) * r;
+                let y = sin(a) * r;
+                let size = map(a, 0, TWO_PI * 4, 5, 30);
+                
+                fill(map(a, 0, TWO_PI * 4, 180, 320), 90, 90, 0.7);
+                noStroke();
+                circle(x, y, size);
+            }
+            pop();
+            
+            // Cercles de points
+            for (let i = 0; i < 8; i++) {
+                let cx = random(width);
+                let cy = random(height);
+                let radius = random(50, 150);
+                let points = int(random(12, 24));
+                let hue = random(360);
+                
+                for (let j = 0; j < points; j++) {
+                    let angle = map(j, 0, points, 0, TWO_PI);
+                    let x = cx + cos(angle) * radius;
+                    let y = cy + sin(angle) * radius;
+                    
+                    fill(hue, 80, 80);
+                    noStroke();
+                    circle(x, y, 10);
+                }
+            }
+            
+            // Grands cercles semi-transparents d'overlay
+            for (let i = 0; i < 5; i++) {
+                fill(random(360), 70, random(60, 90), 0.1);
+                noStroke();
+                circle(random(width), random(height), random(300, 600));
+            }
+        }
+        
+        function mousePressed() {
+            drawCircles();
+        }
+    </script>
+</body>
+</html>
